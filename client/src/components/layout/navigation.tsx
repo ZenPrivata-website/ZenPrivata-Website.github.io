@@ -61,7 +61,7 @@ export default function Navigation() {
             >
               Blog
             </a>
-            <Link href="/contact">
+            <Link href="/contact" onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}>
               <Button 
                 variant="no-hover"
                 className="bg-zen-orange text-white hover:bg-orange-600 transition-colors"
@@ -113,13 +113,18 @@ export default function Navigation() {
               >
                 Blog
               </a>
-              <Button 
-                variant="no-hover"
-                className="bg-zen-orange text-white hover:bg-orange-600 transition-colors w-full text-left"
-                onClick={() => window.location.href = "/contact"}
-              >
-                Request Free Consultation
-              </Button>
+              <Link href="/contact">
+                <Button 
+                  variant="no-hover"
+                  className="bg-zen-orange text-white hover:bg-orange-600 transition-colors w-full text-left"
+                  onClick={() => {
+                    setIsMobileMenuOpen(false);
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                  }}
+                >
+                  Request Free Consultation
+                </Button>
+              </Link>
             </div>
           </div>
         )}
