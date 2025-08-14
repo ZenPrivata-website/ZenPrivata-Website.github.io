@@ -13,6 +13,7 @@ import { Mail, Linkedin, Calendar, Download, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { useMutation } from "@tanstack/react-query";
 import { apiRequest } from "@/lib/queryClient";
+import emailjs from '@emailjs/browser';
 
 const contactFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -37,14 +38,43 @@ export default function Contact() {
     },
   });
 
+  // Check if we're running on GitHub Pages (static environment)
+  const isGitHubPages = window.location.hostname.includes('github.io') || 
+                        window.location.hostname.includes('pages.github.com') ||
+                        !window.location.hostname.includes('replit');
+
   const contactMutation = useMutation({
     mutationFn: async (data: ContactFormData) => {
-      return apiRequest('/api/contact', {
-        method: 'POST',
-        body: JSON.stringify(data),
-      });
+      if (isGitHubPages) {
+        // Use EmailJS for GitHub Pages (static hosting)
+        const templateParams = {
+          user_email: data.email,
+          organization: data.organization,
+          message: data.message,
+          form_type: 'Contact Form Submission',
+          timestamp: new Date().toLocaleString()
+        };
+
+        // EmailJS configuration for GitHub Pages
+        const serviceId = 'service_osoudyz';
+        const templateId = 'template_ho61775';
+        const publicKey = 'tb1C0_QTUVGQNsZ3O';
+
+        const response = await emailjs.send(serviceId, templateId, templateParams, publicKey);
+        return { success: true, message: "Thank you for your message! We'll get back to you within 24 hours." };
+      } else {
+        // Use server API for Replit hosting
+        const response = await apiRequest('/api/contact', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        return response.json();
+      }
     },
-    onSuccess: (response) => {
+    onSuccess: (response: any) => {
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
