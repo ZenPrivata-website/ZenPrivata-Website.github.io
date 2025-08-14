@@ -38,6 +38,26 @@ export default function Contact() {
 
   const onSubmit = async (data: ContactFormData) => {
     try {
+      // Initialize EmailJS if not already done
+      if (!emailjs || typeof emailjs.send !== 'function') {
+        throw new Error('EmailJS not properly initialized');
+      }
+
+      // Check environment variables
+      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
+      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFICATION;
+      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
+
+      console.log('EmailJS Config Check:', {
+        serviceId: serviceId ? 'exists' : 'missing',
+        templateId: templateId ? 'exists' : 'missing',
+        publicKey: publicKey ? 'exists' : 'missing'
+      });
+
+      if (!serviceId || !templateId || !publicKey) {
+        throw new Error('EmailJS configuration missing');
+      }
+
       // Send notification to scott@zenprivata.com
       const notificationParams = {
         user_email: data.email,
@@ -47,12 +67,16 @@ export default function Contact() {
         timestamp: new Date().toLocaleString()
       };
       
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFICATION,
+      console.log('Attempting to send email with params:', notificationParams);
+
+      const response = await emailjs.send(
+        serviceId,
+        templateId,
         notificationParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
+        publicKey
       );
+
+      console.log('EmailJS response:', response);
       
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -64,10 +88,22 @@ export default function Contact() {
       
       form.reset();
     } catch (error) {
-      console.error('Contact form error:', error);
+      console.error('Contact form error details:', error);
+      
+      // More specific error messages
+      let errorMessage = "Something went wrong. Please try again.";
+      
+      if (error instanceof Error) {
+        if (error.message.includes('EmailJS')) {
+          errorMessage = "Email service configuration error. Please contact support.";
+        } else if (error.message.includes('network') || error.message.includes('fetch')) {
+          errorMessage = "Network error. Please check your connection and try again.";
+        }
+      }
+      
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
