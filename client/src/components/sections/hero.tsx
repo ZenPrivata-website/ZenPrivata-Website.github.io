@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play, Download, Star } from "lucide-react";
 import { Link } from "wouter";
-import dashboardTeamImage from "@assets/image_1755043696494.png";
+import teamVideo from "@assets/Teamof3rev-15_41_11_1755213926423.mp4";
 
 export default function HeroSection() {
   const handleRequestDemo = () => {
@@ -64,15 +64,21 @@ export default function HeroSection() {
             </div>
           </div>
 
-          {/* Right Content - Image */}
+          {/* Right Content - Video */}
           <div className="relative lg:pl-8">
             <Card className="shadow-2xl border-0 bg-white/90 backdrop-blur-sm">
               <CardContent className="p-6">
-                <img 
-                  src={dashboardTeamImage} 
-                  alt="Team collaborating on cybersecurity dashboard"
+                <video 
+                  src={teamVideo} 
+                  controls
+                  autoPlay
+                  muted
+                  loop
                   className="w-full rounded-lg"
-                />
+                  poster=""
+                >
+                  Your browser does not support the video tag.
+                </video>
               </CardContent>
             </Card>
           </div>
