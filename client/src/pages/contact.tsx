@@ -49,9 +49,10 @@ export default function Contact() {
       const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
 
       console.log('EmailJS Config Check:', {
-        serviceId: serviceId ? 'exists' : 'missing',
-        templateId: templateId ? 'exists' : 'missing',
-        publicKey: publicKey ? 'exists' : 'missing'
+        serviceId: serviceId ? `exists (${serviceId.substring(0, 8)}...)` : 'missing',
+        templateId: templateId ? `exists (${templateId.substring(0, 8)}...)` : 'missing',
+        publicKey: publicKey ? `exists (${publicKey.substring(0, 8)}...)` : 'missing',
+        allEnvVars: import.meta.env
       });
 
       if (!serviceId || !templateId || !publicKey) {
