@@ -11,7 +11,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Checkbox } from "@/components/ui/checkbox";
 import { Mail, Linkedin, Calendar, Download, Send } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
-import emailjs from '@emailjs/browser';
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 
 const contactFormSchema = z.object({
   email: z.string().email("Invalid email address"),
@@ -36,82 +37,43 @@ export default function Contact() {
     },
   });
 
-  const onSubmit = async (data: ContactFormData) => {
-    try {
-      // For now, let's bypass EmailJS and show success
-      // This is a temporary solution while we debug the configuration
-      console.log('Form submission data:', {
-        email: data.email,
-        organization: data.organization,
-        message: data.message,
-        timestamp: new Date().toLocaleString()
+  const contactMutation = useMutation({
+    mutationFn: async (data: ContactFormData) => {
+      return apiRequest('/api/contact', {
+        method: 'POST',
+        body: JSON.stringify(data),
       });
-
-      // Initialize EmailJS if not already done
-      if (!emailjs || typeof emailjs.send !== 'function') {
-        console.error('EmailJS not properly initialized');
-        // Don't throw error, just log it and continue with fallback
-      }
-
-      // Check environment variables
-      const serviceId = import.meta.env.VITE_EMAILJS_SERVICE_ID;
-      const templateId = import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFICATION;
-      const publicKey = import.meta.env.VITE_EMAILJS_PUBLIC_KEY;
-
-      console.log('EmailJS Config Check:', {
-        serviceId: serviceId || 'missing',
-        templateId: templateId || 'missing',
-        publicKey: publicKey || 'missing',
-        envKeys: Object.keys(import.meta.env).filter(key => key.includes('EMAILJS'))
-      });
-
-      // Try to send with EmailJS if all configs are available
-      if (emailjs && serviceId && templateId && publicKey) {
-        const notificationParams = {
-          user_email: data.email,
-          organization: data.organization,
-          message: data.message,
-          form_type: 'Contact Form Submission',
-          timestamp: new Date().toLocaleString()
-        };
-        
-        console.log('Attempting EmailJS send...');
-
-        try {
-          const response = await emailjs.send(
-            serviceId,
-            templateId,
-            notificationParams,
-            publicKey
-          );
-          console.log('EmailJS success:', response);
-        } catch (emailError) {
-          console.error('EmailJS failed, but continuing:', emailError);
-          // Don't fail the form submission if EmailJS fails
-        }
-      } else {
-        console.log('EmailJS not configured properly, skipping email send');
-      }
-      
-      // Always show success to user
+    },
+    onSuccess: (response) => {
       setIsSubmitted(true);
       window.scrollTo({ top: 0, behavior: 'smooth' });
       
       toast({
         title: "Message Sent!",
-        description: "Thank you for your message! We'll get back to you within 24 hours.",
+        description: response.message || "Thank you for your message! We'll get back to you within 24 hours.",
       });
       
       form.reset();
-    } catch (error) {
-      console.error('Unexpected error in form submission:', error);
+    },
+    onError: (error: any) => {
+      console.error('Contact form error:', error);
+      
+      let errorMessage = "Something went wrong. Please try again.";
+      
+      if (error?.message) {
+        errorMessage = error.message;
+      }
       
       toast({
         title: "Error",
-        description: "Something went wrong. Please try again.",
+        description: errorMessage,
         variant: "destructive",
       });
     }
+  });
+
+  const onSubmit = (data: ContactFormData) => {
+    contactMutation.mutate(data);
   };
 
 
@@ -227,10 +189,10 @@ export default function Contact() {
                   <Button
                     type="submit"
                     className="w-full bg-zen-orange text-white hover:bg-orange-600 transition-colors"
-                    disabled={form.formState.isSubmitting}
+                    disabled={contactMutation.isPending}
                   >
                     <Send className="mr-2 h-4 w-4" />
-                    {form.formState.isSubmitting ? "Sending..." : "Send Message"}
+                    {contactMutation.isPending ? "Sending..." : "Send Message"}
                   </Button>
                 </form>
               </Form>
