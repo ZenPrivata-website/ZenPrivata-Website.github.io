@@ -123,7 +123,7 @@ export default function Product() {
             <div id="comprehensive-dashboard" className="text-center">
               <div className="max-w-4xl mx-auto">
                 <h2 className="text-3xl font-bold text-zen-dark mb-6">
-                  Intelligence-Driven Security Management
+                  Comprehensive Security Dashboard
                 </h2>
                 <p className="text-lg text-zen-muted mb-12 leading-relaxed">
                   Monitor your cybersecurity program progress across all framework controls with real-time visibility into your security posture. Track implementation status, identify gaps, and prioritize actions with intelligence designed for CDFIs.
@@ -156,15 +156,7 @@ export default function Product() {
                   </div>
                 </div>
 
-                {/* Enhanced Features List */}
-                <div className="grid md:grid-cols-2 gap-6 text-left">
-                  {features.map((feature, index) => (
-                    <div key={index} className="flex items-start space-x-3 p-4 bg-white rounded-lg border border-zen-light">
-                      <CheckCircle className="text-zen-success mt-0.5 h-5 w-5 flex-shrink-0" />
-                      <span className="text-zen-muted font-medium">{feature}</span>
-                    </div>
-                  ))}
-                </div>
+
               </div>
             </div>
 
