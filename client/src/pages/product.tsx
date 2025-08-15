@@ -1,6 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { CheckCircle, Shield, Zap, Users, ArrowRight, Star } from "lucide-react";
+import { CheckCircle, Shield, Zap, Users, ArrowRight, Star, Activity, BarChart3, Target } from "lucide-react";
 import { Link } from "wouter";
 
 export default function Product() {
@@ -119,34 +119,52 @@ export default function Product() {
       <div className="py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16">
-            {/* Dashboard Overview */}
-            <div id="comprehensive-dashboard" className="grid lg:grid-cols-2 gap-12 items-center">
-              <div>
-                <h2 className="text-2xl font-semibold text-zen-dark mb-4">
-                  Comprehensive Security Dashboard
+            {/* Security Intelligence Overview */}
+            <div id="comprehensive-dashboard" className="text-center">
+              <div className="max-w-4xl mx-auto">
+                <h2 className="text-3xl font-bold text-zen-dark mb-6">
+                  Intelligence-Driven Security Management
                 </h2>
-                <p className="text-zen-muted mb-6 leading-relaxed">
+                <p className="text-lg text-zen-muted mb-12 leading-relaxed">
                   Monitor your cybersecurity program progress across all framework controls with real-time visibility into your security posture. Track implementation status, identify gaps, and prioritize actions with intelligence designed for CDFIs.
                 </p>
-                <ul className="space-y-2 text-zen-muted">
+                
+                {/* Key Capabilities Grid */}
+                <div className="grid md:grid-cols-3 gap-8 mb-12">
+                  <div className="p-6 bg-gradient-to-br from-zen-light to-white rounded-xl border border-zen-light shadow-sm">
+                    <div className="w-12 h-12 bg-zen-orange/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                      <Activity className="w-6 h-6 text-zen-orange" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-zen-dark mb-2">Real-time Progress Tracking</h3>
+                    <p className="text-zen-muted text-sm">Monitor implementation progress across all cybersecurity framework controls with live status updates and completion metrics.</p>
+                  </div>
+                  
+                  <div className="p-6 bg-gradient-to-br from-zen-light to-white rounded-xl border border-zen-light shadow-sm">
+                    <div className="w-12 h-12 bg-zen-orange/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                      <BarChart3 className="w-6 h-6 text-zen-orange" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-zen-dark mb-2">Visual Framework Status</h3>
+                    <p className="text-zen-muted text-sm">Clear visual indicators show which controls are complete, in progress, or need attention across your security framework.</p>
+                  </div>
+                  
+                  <div className="p-6 bg-gradient-to-br from-zen-light to-white rounded-xl border border-zen-light shadow-sm">
+                    <div className="w-12 h-12 bg-zen-orange/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
+                      <Target className="w-6 h-6 text-zen-orange" />
+                    </div>
+                    <h3 className="text-lg font-semibold text-zen-dark mb-2">Risk-based Prioritization</h3>
+                    <p className="text-zen-muted text-sm">Intelligent task prioritization helps you focus on the most critical security gaps first, optimizing your limited resources.</p>
+                  </div>
+                </div>
+
+                {/* Enhanced Features List */}
+                <div className="grid md:grid-cols-2 gap-6 text-left">
                   {features.map((feature, index) => (
-                    <li key={index} className="flex items-center">
-                      <CheckCircle className="text-zen-success mr-2 h-4 w-4" />
-                      {feature}
-                    </li>
+                    <div key={index} className="flex items-start space-x-3 p-4 bg-white rounded-lg border border-zen-light">
+                      <CheckCircle className="text-zen-success mt-0.5 h-5 w-5 flex-shrink-0" />
+                      <span className="text-zen-muted font-medium">{feature}</span>
+                    </div>
                   ))}
-                </ul>
-              </div>
-              <div className="relative">
-                <Card className="shadow-lg">
-                  <CardContent className="p-6">
-                    <img 
-                      src="/Screenshot1.webp" 
-                      alt="CDFI Security Hub Dashboard"
-                      className="w-full rounded-lg"
-                    />
-                  </CardContent>
-                </Card>
+                </div>
               </div>
             </div>
 
