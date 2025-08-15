@@ -116,7 +116,7 @@ export default function Product() {
       </section>
 
       {/* Main Content Sections */}
-      <div className="py-20 bg-white">
+      <div className="py-12 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="space-y-16">
             {/* Security Intelligence Overview */}
@@ -192,7 +192,7 @@ export default function Product() {
             </div>
 
             {/* Control Implementation */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ marginTop: '5px' }}>
               <div>
                 <h2 className="text-2xl font-semibold text-zen-dark mb-4">
                   Simplified Cybersecurity Framework Implementation
@@ -229,7 +229,7 @@ export default function Product() {
             </div>
 
             {/* AI Assistant */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ marginTop: '5px' }}>
               <div className="order-2 lg:order-1">
                 <Card className="shadow-lg">
                   <CardContent className="p-6">
@@ -260,7 +260,7 @@ export default function Product() {
             </div>
 
             {/* Professional Reporting */}
-            <div className="grid lg:grid-cols-2 gap-12 items-center">
+            <div className="grid lg:grid-cols-2 gap-12 items-center" style={{ marginTop: '5px' }}>
               <div>
                 <h2 className="text-2xl font-semibold text-zen-dark mb-4">
                   Professional Reporting & Documentation

@@ -130,7 +130,7 @@ export default function LeadMagnetSection() {
 
   if (isSubmitted) {
     return (
-      <section id="lead-magnet" className="py-20 bg-gradient-to-r from-zen-light to-white">
+      <section id="lead-magnet" className="py-24 bg-gradient-to-r from-zen-light to-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <Card className="shadow-lg max-w-md mx-auto">
             <CardContent className="p-8">
@@ -149,7 +149,7 @@ export default function LeadMagnetSection() {
   }
 
   return (
-    <section id="lead-magnet" className="py-20 bg-gradient-to-r from-zen-light to-white">
+    <section id="lead-magnet" className="py-24 bg-gradient-to-r from-zen-light to-white">
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Centered Title */}
         <div className="text-center mb-12">

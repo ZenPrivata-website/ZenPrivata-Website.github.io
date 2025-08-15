@@ -7,9 +7,11 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      <FeaturesSection />
-      <StatsSection />
-      <LeadMagnetSection />
+      <div className="pt-8">
+        <FeaturesSection />
+        <StatsSection />
+        <LeadMagnetSection />
+      </div>
     </div>
   );
 }
