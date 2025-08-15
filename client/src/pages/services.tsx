@@ -184,7 +184,7 @@ export default function Services() {
           </div>
 
           {/* Our Approach */}
-          <div className="mb-16">
+          <div className="mb-16 mt-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-zen-dark mb-4">Our Approach</h2>
             </div>
@@ -204,7 +204,7 @@ export default function Services() {
           </div>
 
           {/* What We Provide */}
-          <div className="mb-16">
+          <div className="mb-16 mt-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-zen-dark mb-4">What We Provide</h2>
             </div>
