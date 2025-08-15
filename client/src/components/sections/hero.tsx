@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Play, Download, Star } from "lucide-react";
 import { Link } from "wouter";
-import cdfiTeamImage from "@assets/cdfi_1755214213286.webp";
+import cdfiTeamImage from "@assets/secure your cdfi zenprivata_1755241951214.png";
 
 export default function HeroSection() {
   const handleRequestDemo = () => {
