@@ -9,6 +9,8 @@ import { Input } from "@/components/ui/input";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Download } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { useMutation } from "@tanstack/react-query";
+import { apiRequest } from "@/lib/queryClient";
 import emailjs from '@emailjs/browser';
 
 const leadFormSchema = z.object({
@@ -32,43 +34,63 @@ export default function LeadMagnetSection() {
     },
   });
 
-  const onSubmit = async (data: LeadFormData) => {
-    try {
-      // Send welcome email to user with download link
-      const userEmailParams = {
-        user_email: data.email,
-        organization: data.organization || 'Community Development Finance Professional',
-        download_link: 'https://zenprivata.com/CDFI-SPF.pdf'
-      };
-      
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_USER,
-        userEmailParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
-      
-      // Send notification to scott@zenprivata.com
-      const notificationParams = {
-        user_email: data.email,
-        organization: data.organization || 'Not provided',
-        message: 'CDFI Framework Download Request',
-        form_type: 'CDFI Framework Download',
-        timestamp: new Date().toLocaleString()
-      };
-      
-      await emailjs.send(
-        import.meta.env.VITE_EMAILJS_SERVICE_ID,
-        import.meta.env.VITE_EMAILJS_TEMPLATE_NOTIFICATION,
-        notificationParams,
-        import.meta.env.VITE_EMAILJS_PUBLIC_KEY
-      );
+  // Check if we're running on GitHub Pages (static environment)
+  const isGitHubPages = window.location.hostname.includes('github.io') || 
+                        window.location.hostname.includes('pages.github.com') ||
+                        !window.location.hostname.includes('replit');
 
+  const leadMutation = useMutation({
+    mutationFn: async (data: LeadFormData) => {
+      if (isGitHubPages) {
+        // Use EmailJS for GitHub Pages (static hosting)
+        const userEmailParams = {
+          user_email: data.email,
+          organization: data.organization || 'Community Development Finance Professional',
+          download_link: 'https://zenprivata.com/CDFI-SPF.pdf'
+        };
+        
+        const notificationParams = {
+          user_email: data.email,
+          organization: data.organization || 'Not provided',
+          message: 'CDFI Framework Download Request',
+          form_type: 'CDFI Framework Download',
+          timestamp: new Date().toLocaleString()
+        };
+
+        // EmailJS configuration for GitHub Pages
+        const serviceId = 'service_osoudyz';
+        const templateIdUser = 'template_jle60to';
+        const templateIdNotification = 'template_ho61775';
+        const publicKey = 'tb1C0_QTUVGQNsZ3O';
+
+        // Send both emails
+        await Promise.all([
+          emailjs.send(serviceId, templateIdUser, userEmailParams, publicKey),
+          emailjs.send(serviceId, templateIdNotification, notificationParams, publicKey)
+        ]);
+
+        return { success: true, message: "Check your email for the download link! We've also sent you the framework." };
+      } else {
+        // Use server API for Replit hosting
+        const response = await fetch('/api/leads', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(data),
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return response.json();
+      }
+    },
+    onSuccess: (response: any) => {
       setIsSubmitted(true);
       
       toast({
         title: "Success!",
-        description: "Check your email for the download link! We've also sent you the framework.",
+        description: response.message || "Check your email for the download link! We've also sent you the framework.",
       });
       
       // Trigger PDF download
@@ -80,7 +102,8 @@ export default function LeadMagnetSection() {
       document.body.removeChild(link);
       
       form.reset();
-    } catch (error) {
+    },
+    onError: (error: any) => {
       console.error('Failed to submit form:', error);
       // Still provide the PDF download even if email fails
       setIsSubmitted(true);
@@ -99,6 +122,10 @@ export default function LeadMagnetSection() {
       
       form.reset();
     }
+  });
+
+  const onSubmit = (data: LeadFormData) => {
+    leadMutation.mutate(data);
   };
 
   if (isSubmitted) {
@@ -201,10 +228,10 @@ export default function LeadMagnetSection() {
                     <Button
                       type="submit"
                       className="w-full bg-zen-orange text-white hover:bg-orange-600 transition-colors"
-                      disabled={form.formState.isSubmitting}
+                      disabled={leadMutation.isPending}
                     >
                       <Download className="mr-2 h-4 w-4" />
-                      {form.formState.isSubmitting ? "Sending..." : "Download Free Framework"}
+                      {leadMutation.isPending ? "Sending..." : "Download Free Framework"}
                     </Button>
                   </form>
                 </Form>
