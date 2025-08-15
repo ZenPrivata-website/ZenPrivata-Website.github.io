@@ -204,7 +204,7 @@ export default function Services() {
           </div>
 
           {/* What We Provide */}
-          <div className="mb-16" style={{ marginTop: '5px' }}>
+          <div className="mb-16" style={{ marginTop: '24px' }}>
             <div className="text-center mb-12">
               <h2 className="text-3xl font-bold text-zen-dark mb-4">What We Provide</h2>
             </div>
