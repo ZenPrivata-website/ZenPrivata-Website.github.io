@@ -7,7 +7,7 @@ export default function Home() {
   return (
     <div>
       <HeroSection />
-      <div className="pt-8">
+      <div className="pt-4">
         <FeaturesSection />
         <StatsSection />
         <LeadMagnetSection />
