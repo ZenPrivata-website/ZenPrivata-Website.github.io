@@ -130,7 +130,7 @@ export default function Product() {
                 </p>
                 
                 {/* Key Capabilities Grid */}
-                <div className="grid md:grid-cols-3 gap-8 mb-12">
+                <div className="grid md:grid-cols-3 gap-8 mb-16">
                   <div className="p-6 bg-gradient-to-br from-zen-light to-white rounded-xl border border-zen-light shadow-sm">
                     <div className="w-12 h-12 bg-zen-orange/10 rounded-lg flex items-center justify-center mb-4 mx-auto">
                       <Activity className="w-6 h-6 text-zen-orange" />
