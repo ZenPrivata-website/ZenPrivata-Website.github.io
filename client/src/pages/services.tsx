@@ -18,7 +18,7 @@ import {
   Award
 } from "lucide-react";
 import { Link } from "wouter";
-import cdfiServicesImage from "@assets/cdfi services_1755044034761.webp";
+import cdfiServicesImage from "@assets/secure your cdfi zenprivata_1755242194077.png";
 
 export default function Services() {
   const approach = [
