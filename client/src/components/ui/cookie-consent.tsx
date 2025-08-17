@@ -35,10 +35,7 @@ export default function CookieConsent() {
         <div className="flex flex-col md:flex-row items-center justify-between gap-4 p-4">
           <div className="text-sm">
             <p className="text-white">
-              We use cookies to enhance your experience and analyze site usage. By continuing, you consent to our use of cookies.{" "}
-              <a href="#privacy" className="text-zen-orange underline hover:text-orange-400">
-                Learn more
-              </a>
+              We use cookies to enhance your experience and analyze site usage. By continuing, you consent to our use of cookies.
             </p>
           </div>
           <div className="flex gap-3">
@@ -52,7 +49,7 @@ export default function CookieConsent() {
             <Button
               onClick={declineCookies}
               variant="outline"
-              className="border-white border-2 text-white hover:bg-white hover:text-zen-dark transition-colors"
+              className="border-gray-300 bg-transparent text-gray-300 hover:bg-gray-300 hover:text-zen-dark transition-colors"
               size="sm"
             >
               Decline
