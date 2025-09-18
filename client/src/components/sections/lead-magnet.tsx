@@ -162,7 +162,7 @@ export default function LeadMagnetSection() {
           {/* Text Content - Left Side */}
           <div className="space-y-4">
             <p className="text-base text-zen-muted leading-relaxed">
-              ZenPrivata was commissioned by the African American Alliance of″]CDFI CEOs to develop a security and privacy framework for Community Development Financial Institutions (CDFI) as part of their Women-Led Initiative Technology Enhancement Project.
+              ZenPrivata was commissioned by the African American Alliance of CDFI CEOs to develop a security and privacy framework for Community Development Financial Institutions (CDFI) as part of their Women-Led Initiative Technology Enhancement Project.
             </p>
             <p className="text-base text-zen-muted leading-relaxed">
               The CDFI Security and Privacy Framework (CDFI-SPF) was created specifically with the needs and abilities of CDFIs in mind. We met with CDFIs and learned what dangers they face, what risks would be most harmful to CDFIs, what systems CDFIs use and what their attack surface looked like, and what controls CDFIs typically already had in place.
